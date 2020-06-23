@@ -23,12 +23,12 @@
 ### Changed
 - updated all ```print()``` statements
 - moved helper modules to /project directory to resolve ImportError 
-- Deprecated function astropy.analytic_functions.blackbody_nu replaced with
-astropy.modeling.blackbody.blackbody_nu
-- Reading and writing files in non-binary mode to prevent IO TypeError 
+- deprecated function ```astropy.analytic_functions.blackbody_nu``` replaced with
+```astropy.modeling.blackbody.blackbody_nu```
+- reading and writing data files in non-binary mode to prevent IO TypeError 
 	
 ### Fixed
 - yaml.load() warning suppressed by adding Loader arg
 
 ```fit_struct = yaml.load(input, Loader=yaml.FullLoader) ```
-- Slicing convention of Astropy.table()
+- using new array slicing convention for Astropy.table
