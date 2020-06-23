@@ -1,13 +1,10 @@
-###############################################
-# ########################################### #
-# # MrMoose README - Current Version v1.1.0 # #
-# ########################################### #
-###############################################
+# Mr.Moose v.1.1.0.dev
+MrMoose stands for Multi-Resolution Multi-Object/Origin Spectral Energy distribution fitting procedure. In a nutshell, this code allows to fit user-defined models onto a set of multi-wavelength data using a Bayesian framework. The code is shared with multiple examples to demonstrate its capabilities and allow the user to adapt it more easily to their specific requirements. MrMoose is designed to permit user a large freedom in a user-friendly fashion, but not being user-opaque. The code can therefore handle blended sources, large variation in resolution, and even upper limits consistenly. It also generates a series of ouputs allowing for an quick interpretation of the results. The code is using the emcee package, and saving the emcee sampler object (.pkl) allowing users to tranfer the output to personnal graphical interface. 
 
-Table of contents:
-* Presentation
+
+## Table of contents:
 * References
-* Last updates
+* Requirements 
 * Installation
 * First run
 * Known limitations
@@ -15,44 +12,26 @@ Table of contents:
 * Compilation of tips and tricks
 
 
-#################
-# Presentation: #
-#################
-MrMoose stands for Multi-Resolution Multi-Object/Origin Spectral Energy distribution fitting procedure.
-In a nutshell, this code allows to fit user-defined models onto a set of multi-wavelength data using a
-Bayesian framework. The code is shared with multiple examples to demonstrate its capabilities and allow
-the user to adapt it more easily to their specific requirements. MrMoose is designed to permit user a
-large freedom in a user-friendly fashion, but not being user-opaque. The code can therefore handle blended sources,
-large variation in resolution, and even upper limits consistenly. It also generates a series of ouputs
-allowing for an quick interpretation of the results. The code is using the emcee package, and saving the
-emcee sampler object (.pkl) allowing users to tranfer the output to personnal graphical interface. 
-
-
-###############
-# References: #
-###############
+## References
 If using this code, please refer to the published paper of the code:
 (submitted to MNRAS, under reviewing process)
 arxiv pdf: tbc
 bibtex: tbc 
 
-#####################################
-# Last updates, main modifications: #
-#####################################
-* v1.0.0: public release
-* v1.0.1: correctif release
-            - correction of the dump fit_struct in the .sav file to be human readable
-            - addition of the model_struct containing parameters best fit values and uncertainties in .sav file
-            - update of model library, correction of overflow problems in synchrotron laws
-            - correction of graphic bug in displaying the walker chains plot (inverted color depending on AF_cut value)
-* v1.1.0: update release
-            - implementation of redshift as free parameters
-            - correction of various bugs
-            - homogeneisation of examples to free parameter redshift implementation
+## Requirements
+pathos>=0.2.0
+tqdm>=4.8.4
+scipy>=0.14.0
+guppy3>=3.0.0
+numpy>=1.9.1
+emcee>=2.2.1
+corner>=2.0.1
+pycallgraph>=1.0.1
+matplotlib>=1.5.1
+astropy>=2.0rc1
+PyYAML>=3.12
 
-#############################
-# Installation instruction: #
-#############################
+## Installation
 Download MrMoose from github, either by running in a terminal (require git to be installed)
 git clone https://github.com/gdrouart/MrMoose.git
 (or as a standard .zip file from the same url in a browser)
@@ -63,11 +42,10 @@ python install setup.py
 Add the path to MrMoose in your PYTHONPATH variable in your .bashrc or .profile to be called on demand
 export PYTHONPATH=Your_path_to_MrMoose_directory:$PYTHONPATH
 
-#############
-# First run #
-#############
+## Usage
 We summarise here the first run of MrMoose. Under ipython for instance
->run example1.py
+```run example1.py
+```
 will create three files, with the following path:
  - data/fake_source_ex1.dat
  - models/fake_source_ex1.mod
@@ -78,26 +56,25 @@ the interval to be considered for each parameter and the .fit file contains the 
 perform the fit. 
 
 To run your first fit, after launching ipython:
->import mrmoose
->tab = mrmoose.SED_fit('fake_source_ex1.fit')
+```import mrmoose
+tab = mrmoose.SED_fit('fake_source_ex1.fit')
+```
 will perform your first run and generate your first results! (several .pdf files and a .pkl file
 in the outputs folder)
 
 Make sure you also create a data, models and outputs folders if not already existing, otherwise MrMoose will crash!
->mkdir data
->mkdir models
->mkdir outputs
+```
+mkdir data
+mkdir models
+mkdir outputs
+```
 
-############################
-# Limitations, known bugs: #
-############################
+## Known Issues
 - Initial values set as the median of the interval of parameters
 - Require to underestimate the parameters(especially normalisation factor) in case of the presence of upper limits
 - Parallelisation on one source only is not effective, but working efficiently for sample (one source per core)
 
-########################
-# Future developments: #
-########################
+## Contributing
 - Implementation of checkpoints to re-start chain convergence in case of crash/stops
 - Allowing different prior on the parameter (only uninformative, uniform prior in v1.0)
 - Implement Jupyter interface
@@ -108,9 +85,7 @@ Make sure you also create a data, models and outputs folders if not already exis
 - Allowing different redshift for different components, and allowing redshift as a free parameter - added in Version 1.1
 - Move the advanced feature to the setting file (.fit) as optional parameters
 
-#####################
-# Advanced features #
-#####################
+## Advanced Features
 - AF_cut: in the mrmoose.py file, the option "AF_cut" can be modified to filter manually walkers below a
 given acceptance fraction(AF) value. The default value is -1, where the code filter automatically chains
 with AF<mean(AF)/2, but is not necessarily optimal in certain cases. To obtain a view of the distribution
@@ -122,9 +97,7 @@ in the mm_utilities.py file in the function named "format_plot_output".
 - AICc(in development): a number to compare different model combination directly. See Akaike Information Criteria
 definition for a description of this diagnostic tool for model comparison. 
 
-####################
-# Tips and tricks: #
-####################
+## Tips and Tricks
 We provide here some extra tips to manipulate ouputs:
 
 To compress the pdf into more handy version:
