@@ -1,6 +1,6 @@
 # Change Log
 
-# v1.0.0: public release
+## v1.0.0: public release
 
 ## v1.0.1: correct release
 ### Changed

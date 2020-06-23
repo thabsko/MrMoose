@@ -43,10 +43,14 @@ Add the path to MrMoose in your PYTHONPATH variable in your .bashrc or .profile 
 export PYTHONPATH=Your_path_to_MrMoose_directory:$PYTHONPATH
 
 ## Usage
-We summarise here the first run of MrMoose. Under ipython for instance
-```run example1.py
+We summarise here the first run of MrMoose. 
+
+In an ipython for instance, enter:
 ```
-will create three files, with the following path:
+run example1.py
+```
+
+This will create three files, with the following path:
  - data/fake_source_ex1.dat
  - models/fake_source_ex1.mod
  - fake_source_ex1.fit
@@ -56,7 +60,8 @@ the interval to be considered for each parameter and the .fit file contains the 
 perform the fit. 
 
 To run your first fit, after launching ipython:
-```import mrmoose
+```
+import mrmoose
 tab = mrmoose.SED_fit('fake_source_ex1.fit')
 ```
 will perform your first run and generate your first results! (several .pdf files and a .pkl file
