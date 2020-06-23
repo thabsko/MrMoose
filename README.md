@@ -16,8 +16,8 @@ MrMoose stands for Multi-Resolution Multi-Object/Origin Spectral Energy distribu
 ## References
 If using this code, please refer to the published paper of the code:
 (submitted to MNRAS, under reviewing process)
-arxiv pdf: tbc
-bibtex: tbc 
+arxiv pdf: https://arxiv.org/pdf/1804.01748
+doi: 10.1093/mnras/sty831
 
 ## Requirements
 pathos>=0.2.0
