@@ -6,10 +6,11 @@ MrMoose stands for Multi-Resolution Multi-Object/Origin Spectral Energy distribu
 * References
 * Requirements 
 * Installation
-* First run
-* Known limitations
+* Usage
+* Known Issues
+* Contributing
 * Advanced features
-* Compilation of tips and tricks
+* Tips and tricks
 
 
 ## References
@@ -37,7 +38,9 @@ git clone https://github.com/gdrouart/MrMoose.git
 (or as a standard .zip file from the same url in a browser)
 
 Run the following in the directory, to install all required dependencies
-python install setup.py
+```
+python setup.py install
+````
 
 Add the path to MrMoose in your PYTHONPATH variable in your .bashrc or .profile to be called on demand
 export PYTHONPATH=Your_path_to_MrMoose_directory:$PYTHONPATH
