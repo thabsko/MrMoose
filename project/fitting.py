@@ -111,7 +111,7 @@ def lnlike(theta, fit_struct, data, filters, param, detection_mask):
 
         for j in range(len(number_of_component[i])):
             if fit_struct['redshift'][number_of_component[i][j]] >= 0:
-                # print "pass positive, ", param[number_of_component[i][j]]['func']
+                #print "pass positive, ", param[number_of_component[i][j]]['func']
                 temp2 = globals()[param[number_of_component[i][j]]['func']]\
                     (xscale, param[number_of_component[i][j]]['current'], fit_struct['redshift'][number_of_component[i][j]])
             else:
