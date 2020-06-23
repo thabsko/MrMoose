@@ -27,9 +27,7 @@ blended at some wavelengths
 
 import astropy
 import numpy as np
-from astropy import analytic_functions
-
-bbfunction = analytic_functions.blackbody.blackbody_nu
+from astropy.modeling import blackbody 
 
 # TODO have a look on optimising BB_law and AGN_law or the upper limit
 
@@ -86,8 +84,7 @@ def BB_law(x, param, redshift):
     :param redshift: The redshift z of the object
     :return: the observed flux_nu of the blackbody model
     """
-    from astropy import analytic_functions
-    bbfunction = analytic_functions.blackbody.blackbody_nu
+    bbfunction = blackbody.blackbody_nu
     norm, temp = param
     redshift_shifted_freq = (1 + redshift)*x
     stradian = 4*np.pi

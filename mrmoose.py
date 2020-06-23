@@ -16,6 +16,8 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 #import sys
 #sys.path.append('/Library/Python/2.7/site-packages/')
@@ -24,15 +26,15 @@ GNU General Public License for more details.
 #from astropy import constants
 #from guppy import hpy
 import time
-import cPickle as pickle
+import _pickle as cPickle
 import yaml
 
 # local package
-import fitting as ft
-import graphics as gp
-import read_files as rd
-import mm_utilities as ut
-import analysis as an
+from project import fitting as ft
+from project import graphics as gp
+from project import read_files as rd
+from project import mm_utilities as ut
+from project import analysis as an
 
 #from pycallgraph import PyCallGraph
 #from pycallgraph.output import GraphvizOutput
@@ -53,8 +55,8 @@ def SED_fit(settings_file, Parallel=None):
     """
 
     # read the files with the fit settings
-    with open(settings_file, 'rb') as input:
-        fit_struct = yaml.load(input)
+    with open(settings_file, 'r') as input:
+        fit_struct = yaml.load(input, Loader=yaml.FullLoader)
 
     # some memory and timing tracking
     # h=hpy()
@@ -77,18 +79,18 @@ def SED_fit(settings_file, Parallel=None):
     filter_struct = rd.read_filters(data_struct)
 
     for i in range(len(data_struct)):
-        print ""
-        print data_struct[i]
-        print ""
+        print("")
+        print(data_struct[i])
+        print("")
 
     if fit_struct['skip_imaging'] == False:
         try:
             ut.imaging(fit_struct)
         except Exception:
-            print "fits already exits, double check they are right!"
+            print("fits already exits, double check they are right!")
             pass
     else:
-        print 'skip data imaging'
+        print('skip data imaging')
         pass
 
     # check if the redshift option and list are well provided
@@ -101,6 +103,7 @@ def SED_fit(settings_file, Parallel=None):
 
     # TODO: check the conditions!
     # check if the functions to be used exist and correspond to the redshift list
+   
     for i, z in enumerate(fit_struct['redshift']):
         if z >= 0:
             if model_struct[i]['func'].find('_z') < 0:
@@ -129,17 +132,17 @@ def SED_fit(settings_file, Parallel=None):
     if fit_struct['skip_fit'] == False:
         # execute fitting
         if Parallel:
-            print 'multi-core sampler exploration'
+            print('multi-core sampler exploration')
             sampler = ft.fit_source(fit_struct, data_struct, filter_struct, model_struct, Parallel=Parallel)
         else:
-            print 'single-core sampler exploration'
+            print('single-core sampler exploration')
             sampler = ft.fit_source(fit_struct, data_struct, filter_struct, model_struct)
-        print 'fit completed!'
+        print('fit completed!')
     else:
         # load the sampler if not fit
         with open(fit_struct['sampler_file'], 'rb') as input:
             sampler = pickle.load(input)
-        print 'sampler loaded!'
+        print('sampler loaded!')
 
     # timing
     # fit_time=time.time()
@@ -157,14 +160,14 @@ def SED_fit(settings_file, Parallel=None):
     if fit_struct['skip_MCChains'] == False:
         gp.MC_Chains_plot(sampler, model_struct, fit_struct, layout=None, histo=histo, AF_cut=AF_cut)
     else:
-        print 'skip MC Chains plotting'
+        print('skip MC Chains plotting')
         pass
 
     # plot the parameters confidence intervals 1D/2D
     if fit_struct['skip_triangle'] == False:
         gp.corner_plot(sampler, model_struct, fit_struct, AF_cut=AF_cut, layout=layout)
     else:
-        print 'skip probability plots'
+        print('skip probability plots')
         pass
 
     # plot the SED with models and data
@@ -178,7 +181,7 @@ def SED_fit(settings_file, Parallel=None):
             gp.split_SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_struct, fit_struct, AF_cut=AF_cut, layout=layout)
             # gp.split_SED_fnu_emcee_marginalised(data_struct, filter_struct, model_struct, fit_struct)  #TODO
     else:
-        print 'skip SED plots'
+        print('skip SED plots')
         pass
 
     # timing
@@ -190,7 +193,7 @@ def SED_fit(settings_file, Parallel=None):
 
     # calculate luminosity with uncertainties
     # save the results in a file for later use/checks
-    with open(fit_struct['save_struct'], 'wb') as output:
+    with open(fit_struct['save_struct'], 'w') as output:
         # format the model_struct as human readable and save
         model_sav = ut.format_sav_output(model_struct)
         yaml.dump([fit_struct,model_sav], output)
@@ -220,11 +223,11 @@ if __name__ == "__main__":
         'corner.*'
     ])
 
-    print 'Initiating MOOSE...'
+    print('Initiating MOOSE...')
     file_example = 'fake_source_ex1.fit'
-    print 'example with {}'.format(file_example)
+    print('example with {}'.format(file_example))
 
     with PyCallGraph(output=graphviz, config=config):
         output_moose = SED_fit(file_example)
 
-    print 'MOOSE finished!'
+    print('MOOSE finished!')

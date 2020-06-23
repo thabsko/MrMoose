@@ -25,7 +25,7 @@ from setuptools import setup
 reqs=['pathos>=0.2.0',
      'tqdm>=4.8.4',
      'scipy>=0.14.0',
-     'guppy>=0.1.10',
+     'guppy3>=3.0.0',
      'numpy>=1.9.1',
      'emcee>=2.2.1',
      'corner>=2.0.1',

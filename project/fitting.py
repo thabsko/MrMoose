@@ -16,14 +16,17 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
-from models import *
-import mm_utilities as ut
+from .models import *
+from . import mm_utilities as ut
 import scipy.special
 import pathos.multiprocessing as mp
 from tqdm import tqdm
 import emcee
-import cPickle as pickle
+import _pickle as cPickle
+import pickle
 
 def calc_chi2(obs_flux, error, model):
     """
@@ -86,7 +89,7 @@ def lnlike(theta, fit_struct, data, filters, param, detection_mask):
         # make a list of list containing the number index of the model functions to use,
         # in the case of several models for
         # the same data point, the list element will be a list of numbers
-        number_of_component.append(map(int, str.split(data[i]['component_number'][0], ',')))
+        number_of_component.append(list(map(int, str.split(data[i]['component_number'][0], ','))))
 
         # call on the model functions via globals()
         # selects the right model (sync_lax or BB_law) via the name from parameter['func']
@@ -108,7 +111,7 @@ def lnlike(theta, fit_struct, data, filters, param, detection_mask):
 
         for j in range(len(number_of_component[i])):
             if fit_struct['redshift'][number_of_component[i][j]] >= 0:
-                #print "pass positive, ", param[number_of_component[i][j]]['func']
+                # print "pass positive, ", param[number_of_component[i][j]]['func']
                 temp2 = globals()[param[number_of_component[i][j]]['func']]\
                     (xscale, param[number_of_component[i][j]]['current'], fit_struct['redshift'][number_of_component[i][j]])
             else:
@@ -209,8 +212,8 @@ def fit_source(fit_struct, data_struct, filter_struct, model_struct, Parallel=0)
     # initiate the walkers "ball"
     pos = [flat_param + 1e-4 * coef_param * np.random.randn(ndim) for i in range(fit_struct['nwalkers'])]
 
-    print
-    print 'HMC attempt for ' + fit_struct['source']
+    print()
+    print('HMC attempt for ' + fit_struct['source'])
     # single processor
     if Parallel == 0:
         sampler = emcee.EnsembleSampler(fit_struct['nwalkers'], ndim, lnprob,
@@ -231,12 +234,12 @@ def fit_source(fit_struct, data_struct, filter_struct, model_struct, Parallel=0)
     pbar = tqdm(total=fit_struct['nsteps'])
     for i in sampler.sample(pos, iterations=fit_struct['nsteps']):
         pbar.update()
-    print 'HMC done!'
+    print('HMC done!')
 
     # save the modified sampler (allows to save pools as well - pathos library allows to serialise pools)
     with open(fit_struct['sampler_file'], 'wb') as output_savefile:
         pickle.dump(sampler, output_savefile, pickle.HIGHEST_PROTOCOL)
-        print 'sampler saved!'
+        print('sampler saved!')
 
     return sampler
 

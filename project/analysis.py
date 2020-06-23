@@ -16,8 +16,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
-import mm_utilities as ut
+from . import mm_utilities as ut
 import numpy as np
 from astropy.cosmology import WMAP9 as cosmos
 from astropy import constants
@@ -79,8 +81,8 @@ def find_stats_fit(sampler, models, fit_struct, data_struct):
     # consider each flux of each arrangement as one datapoint
     ndata = sum([len(elem['filter']) for i,elem in enumerate(data_struct)])
     try:
-        print "AICc calculation... still in developpement, to be used with caution"
+        print("AICc calculation... still in developpement, to be used with caution")
         penalty_factor = 2 * ndim * (ndim +1) / (ndata - ndim -1)
         fit_struct['AICc'] = 2* ndim -2 * fit_struct['best_lnL'] + penalty_factor
     except:
-        print "AICc cannot be calculated, too many parameters compared to data"
+        print("AICc cannot be calculated, too many parameters compared to data")

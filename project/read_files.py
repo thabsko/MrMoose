@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
 
 from astropy.table import Table
 import os
@@ -56,31 +57,31 @@ def read_data(file_name, units):
         # Convert flux to erg /s /cm2 /Hz /Sr
         # Convert wavelength to frequency in Hz
         if flux_unit == 'Jy':
-            table[:]['flux'] *= 1e-23
-            table[:]['flux_error'] *= 1e-23
+            table['flux'][:] *= 1e-23
+            table['flux_error'][:] *= 1e-23
         elif flux_unit == 'mJy':
-            table[:]['flux'] *= 1e-26
-            table[:]['flux_error'] *= 1e-26
+            table['flux'][:] *= 1e-26
+            table['flux_error'][:] *= 1e-26
         elif flux_unit == 'uJy':
-            table[:]['flux'] *= 1e-29
-            table[:]['flux_error'] *= 1e-29
+            table['flux'][:] *= 1e-29
+            table['flux_error'][:] *= 1e-29
         elif flux_unit == 'ergs':
-            print 'nothing to convert, already in right units'
+            print('nothing to convert, already in right units')
         else:
             sys.exit('Input flux unit not valid, allowed units are: Jy, mJy, uJy and ergs.')
 
         if wavelength_unit == 'm':
-            table[:]['lambda0'] = constants.c.value / table[:]['lambda0']
+            table['lambda0'][:] = constants.c.value / table[:]['lambda0']
         elif wavelength_unit == 'mm':
-            table[:]['lambda0'] = np.float(constants.c.value*1e3) / table[:]['lambda0']
+            table['lambda0'][:] = np.float(constants.c.value*1e3) / table[:]['lambda0']
         elif wavelength_unit == 'um':
-            table[:]['lambda0'] = np.float(constants.c.value*1e6) / table[:]['lambda0']
+            table['lambda0'][:] = np.float(constants.c.value*1e6) / table[:]['lambda0']
         elif wavelength_unit == 'Hz':
-            print 'nothing to convert, already in right units'
+            print('nothing to convert, already in right units')
         elif wavelength_unit == 'GHz':
-            table[:]['lambda0'] *= 10**9
+            table['lambda0'][:] *= 10**9
         elif wavelength_unit == 'MHz':
-            table[:]['lambda0'] *= 10**6
+            table['lambda0'][:] *= 10**6
         else:
             sys.exit('Input wavelength unit not valid, allowed units are: m, mm, um, Hz, MHz, GHz.')
 
@@ -159,7 +160,7 @@ def read_single_filter(name):
             wav, trans = np.genfromtxt(name, unpack=True)
             return wav, trans
         except IOError:
-            print "{} filter file does not exist".format(name)
+            print("{} filter file does not exist".format(name))
 
 
 def read_mod_file(name_filemod):
@@ -171,7 +172,7 @@ def read_mod_file(name_filemod):
     corresponding free parameters.
     """
 
-    with open(name_filemod, 'rb') as f:
+    with open(name_filemod, 'r') as f:
         list_comp = []
         func = []
         dim_func = []
@@ -200,8 +201,8 @@ def read_mod_file(name_filemod):
                 line = f.readline()
             while line.strip() == '#':
                 line = f.readline()
-            minparam = np.array(map(float, minparam))
-            maxparam = np.array(map(float, maxparam))
+            minparam = np.array(list(map(float, minparam)))
+            maxparam = np.array(list(map(float, maxparam)))
             comp = {'func': tmpfunc, 'dim': dim, 'param': param, 'min': minparam, 'max': maxparam}
             list_comp.append(comp)
     return list_comp
@@ -218,7 +219,9 @@ def set_init_guess(models):
     """
 
     for i in range(len(models)):
-        models[i]['init'] = np.array(models[i]['min'])+(np.array(models[i]['max'])-np.array(models[i]['min']))/2.
+        min_ = models[i]['min']
+        max_ = models[i]['max']
+        models[i]['init'] = min_ + (max_ - min_)/2.
     return models
 
 

@@ -16,10 +16,12 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import numpy as np
 import itertools
-from models import *
+from .models import *
 
 def flatten_model_keyword(models, keyword):
     """Flatten the model file for the provided keyword in 1D array """
@@ -167,7 +169,7 @@ def integrate_filter(sed_nu, sed_flux, filter_nu, filter_trans):
     filter_trans_interp = np.interp(sed_nu, filter_nu, filter_trans, right=0.0, left=0.0)
 
     if min(filter_nu) < min(sed_nu) or max(filter_nu) > max(sed_nu):
-        print "filter outside range!"
+        print("filter outside range!")
         return 0.0
     else:
         # find max filter
@@ -204,7 +206,7 @@ def create_filter_gate(name, freq, trans_window, size=500, trans_value=1.0):
     return
 
 
-def twoD_Gaussian((x,y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
+def twoD_Gaussian(xxx_todo_changeme, amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     """
     Create a 2D gaussian
 
@@ -217,6 +219,7 @@ def twoD_Gaussian((x,y), amplitude, xo, yo, sigma_x, sigma_y, theta, offset):
     :param offset: level of "background" signal
     :return: 2D array of values
     """
+    (x,y) = xxx_todo_changeme
     xo = float(xo)
     yo = float(yo)
     a = (np.cos(theta)**2)/(2*sigma_x**2) + (np.sin(theta)**2)/(2*sigma_y**2)
@@ -316,7 +319,7 @@ def save_bestfit_SED(data_struct, fit_struct, model_struct):
     #TODO create a file with the SED as frequency vs flux, one column for each model
     #TODO create a header to explain each column
 
-    print "SED saving in developement, use with caution"
+    print("SED saving in developement, use with caution")
 
     tab = []
     min_data = min([min(x['lambda0']) for x in data_struct])*0.1

@@ -16,11 +16,13 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 #import sys
 #sys.path.append('/Library/Python/2.7/site-packages')
-import mm_utilities as ut
-from models import *
+from . import mm_utilities as ut
+from .models import *
 
 # TODO make a initial guess plotting
 # TODO reproduce for a nufnu plot
@@ -50,8 +52,8 @@ def MC_Chains_plot(sampler, model_struct, fit_struct, light=None, AF_cut=0, layo
     plt.rcParams.update({'xtick.labelsize':'small'})
     plt.rcParams.update({'ytick.labelsize':'small'})
 
-    print
-    print 'MC-Chains plot - convergence plot for each walker for each step'
+    print()
+    print('MC-Chains plot - convergence plot for each walker for each step')
 
     name_tab = ut.flatten_model_keyword(model_struct, 'param')
     min_tab = ut.flatten_model_keyword(model_struct, 'min')
@@ -116,7 +118,7 @@ def MC_Chains_plot(sampler, model_struct, fit_struct, light=None, AF_cut=0, layo
         ax1.set_xlabel('Acceptance Fraction')
         ax1.set_ylabel('# of chains')
         fig1.savefig(fit_struct['AF_histo'])
-    print 'Done'
+    print('Done')
 
 
 def corner_plot(sampler, model_struct, fit_struct, AF_cut=0, layout=None):
@@ -151,8 +153,8 @@ def corner_plot(sampler, model_struct, fit_struct, AF_cut=0, layout=None):
     samples = sampler.chain[index_accep, fit_struct['nsteps_cut']:, :].reshape((-1, ndim))
     perc_tab = np.array(fit_struct['percentiles']) * 0.01  # transformation to feed corner function
 
-    print
-    print 'Corner plot - marginalized posterior pdf of each parameter'
+    print()
+    print('Corner plot - marginalized posterior pdf of each parameter')
 
     # calling the corner package to plot
     fig = corner.corner(samples, labels=name_tab, show_titles=True, verbose=False,
@@ -164,7 +166,7 @@ def corner_plot(sampler, model_struct, fit_struct, AF_cut=0, layout=None):
     fig.text(0.9, 0.9, fit_struct['source'], ha='right')
     fig.savefig(fit_struct['triangle_plot'])
 
-    print 'Done'
+    print('Done')
 
     
 def SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_struct, layout=None):
@@ -184,8 +186,8 @@ def SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_struct, 
     import matplotlib as mpl
     import matplotlib.pyplot as plt
 
-    print
-    print 'SED plot - Best fit visualisation'
+    print()
+    print('SED plot - Best fit visualisation')
 
     # restore all defaults, and apply new style
     mpl.rcdefaults()
@@ -271,7 +273,7 @@ def SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_struct, 
     fig1.tight_layout()
     fig1.savefig(fit_struct['SED_fnu_plot'])
 
-    print 'Done'
+    print('Done')
 
 
 def split_SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_struct, layout=None):
@@ -289,8 +291,8 @@ def split_SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_st
     import matplotlib as mpl
     import matplotlib.pyplot as plt
 
-    print
-    print 'split SED plot - Best fit visualisation'
+    print()
+    print('split SED plot - Best fit visualisation')
 
     # restore all defaults, and apply new style
     mpl.rcdefaults()
@@ -323,7 +325,7 @@ def split_SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_st
         #i_y = int(i_arr/nb_cols)
         i_y = int(i_arr % nb_cols)
         #print int(i_arr/nb_cols)
-        print i_x, i_y, i_arr, data_struct[i_arr]['component'][0]
+        print(i_x, i_y, i_arr, data_struct[i_arr]['component'][0])
         
         # get the detection and upper limits from data and plot them
         mask_d = data_struct[i_arr]['det_type'] == 'd'
@@ -385,7 +387,7 @@ def split_SED_fnu_emcee_bestfit(data_struct, filter_struct, model_struct, fit_st
         fig.text(0.5, 0.95, "{}".format(fit_struct['source']), ha='center')
     fig.savefig(fit_struct['SED_fnu_splitplot'])
 
-    print 'Done'
+    print('Done')
 
     
 def SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_struct, fit_struct, layout=None, AF_cut=True):
@@ -404,8 +406,8 @@ def SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_struct, f
     from matplotlib.collections import LineCollection
     import matplotlib.pyplot as plt
 
-    print
-    print 'SED plot - Spaghetti visualisation'
+    print()
+    print('SED plot - Spaghetti visualisation')
 
     # restore all defaults, and apply new style
     mpl.rcdefaults()
@@ -528,7 +530,7 @@ def SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_struct, f
 
     fig1.tight_layout()
     fig1.savefig(fit_struct['SED_fnu_spaplot'])
-    print 'Done'
+    print('Done')
 
 
 def split_SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_struct, fit_struct, layout=None, AF_cut=0):
@@ -547,8 +549,8 @@ def split_SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_str
     from matplotlib.collections import LineCollection
     import matplotlib.pyplot as plt
 
-    print
-    print 'split SED plot - Spaghetti visualisation'
+    print()
+    print('split SED plot - Spaghetti visualisation')
 
     # restore all defaults, and apply new style
     mpl.rcdefaults()
@@ -659,7 +661,7 @@ def split_SED_fnu_emcee_spaghetti(sampler, data_struct, filter_struct, model_str
     else:
         fig.text(0.5, 0.95, "{}".format(fit_struct['source']), ha='center')
     fig.savefig(fit_struct['SED_fnu_splitspaplot'])
-    print 'Done'
+    print('Done')
 
 
 def SED_fnu_emcee_marginalised(data_struct, filter_struct, model_struct, fit_struct, layout=None):
@@ -677,8 +679,8 @@ def SED_fnu_emcee_marginalised(data_struct, filter_struct, model_struct, fit_str
     import matplotlib as mpl
     import matplotlib.pyplot as plt
 
-    print
-    print 'SED plot - Marginalised parameters visualisation'
+    print()
+    print('SED plot - Marginalised parameters visualisation')
 
     # restore all defaults, and apply new style
     mpl.rcdefaults()
@@ -773,5 +775,5 @@ def SED_fnu_emcee_marginalised(data_struct, filter_struct, model_struct, fit_str
 
     fig1.tight_layout()
     fig1.savefig(fit_struct['SED_fnu_margplot'])
-    print 'Done'
+    print('Done')
 
