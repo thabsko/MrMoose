@@ -30,11 +30,11 @@ import _pickle as cPickle
 import yaml
 
 # local package
-from project import fitting as ft
-from project import graphics as gp
-from project import read_files as rd
-from project import mm_utilities as ut
-from project import analysis as an
+from pkg import fitting as ft
+from pkg import graphics as gp
+from pkg import read_files as rd
+from pkg import mm_utilities as ut
+from pkg import analysis as an
 
 #from pycallgraph import PyCallGraph
 #from pycallgraph.output import GraphvizOutput
