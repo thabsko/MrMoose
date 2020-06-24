@@ -5,11 +5,12 @@ a AGN modified black body, with 16 data points of which 1 is an upper limit,
 both from unresolved, blended components at z=0. Similar to example_4.py but
 with lower signal to noise data.
 """
-
-import models as md
+from __future__ import absolute_import
 import numpy as np
-import mm_utilities as mm
-import read_files as rd
+
+from pkg import models as md
+from pkg import mm_utilities as mm
+from pkg import read_files as rd
 
 norm_sync = 1.0
 alpha_sync = -1.0
@@ -75,7 +76,7 @@ for i_filter, name_filter in enumerate(filter_name):
         fnu_err[i_filter] = fnu_mod[i_filter]
 
 # create the data file
-with open('data/fake_source_ex5.dat', 'wb') as fake:
+with open('data/fake_source_ex5.dat', 'w') as fake:
     # header of the file
     fake.writelines("# filter lambda0  det_type  flux   flux_error  arrangement  component   component_number \n")
     # list of the filters
@@ -88,7 +89,7 @@ with open('data/fake_source_ex5.dat', 'wb') as fake:
         fnu_err[i+1], arrangement[i+1], "note", comp_number[i+1]))
 
 # create the fit file
-with open('fake_source_ex5.fit', 'wb') as fake:
+with open('fake_source_ex5.fit', 'w') as fake:
     fake.write('source_file: data/fake_source_ex5.dat \n')
     fake.write('model_file: models/fake_source_ex5.mod \n')
     fake.write('all_same_redshift: True \n')
@@ -106,7 +107,7 @@ with open('fake_source_ex5.fit', 'wb') as fake:
     fake.write("unit_flux: 'Jy' \n")
 
 # create the model file
-with open('models/fake_source_ex5.mod', 'wb') as fake:
+with open('models/fake_source_ex5.mod', 'w') as fake:
     fake.write('sync_law  2 \n')
     fake.write('$N_s$   -28  -18 \n')
     fake.write('$\\alpha_s$ -2.0  0.0 \n')

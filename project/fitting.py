@@ -27,6 +27,7 @@ from tqdm import tqdm
 import emcee
 import _pickle as cPickle
 import pickle
+import os
 
 def calc_chi2(obs_flux, error, model):
     """
@@ -111,7 +112,7 @@ def lnlike(theta, fit_struct, data, filters, param, detection_mask):
 
         for j in range(len(number_of_component[i])):
             if fit_struct['redshift'][number_of_component[i][j]] >= 0:
-                #print "pass positive, ", param[number_of_component[i][j]]['func']
+                # print "pass positive, ", param[number_of_component[i][j]]['func']
                 temp2 = globals()[param[number_of_component[i][j]]['func']]\
                     (xscale, param[number_of_component[i][j]]['current'], fit_struct['redshift'][number_of_component[i][j]])
             else:
@@ -235,6 +236,8 @@ def fit_source(fit_struct, data_struct, filter_struct, model_struct, Parallel=0)
     for i in sampler.sample(pos, iterations=fit_struct['nsteps']):
         pbar.update()
     print('HMC done!')
+
+    os.mkdir('outputs')
 
     # save the modified sampler (allows to save pools as well - pathos library allows to serialise pools)
     with open(fit_struct['sampler_file'], 'wb') as output_savefile:

@@ -5,11 +5,12 @@ bodies, with 15 data points. All is a mixture of unresolved and
 blended/spatially identified components, with the black bodies being at 
 different redshifts (z=2 and z=4).
 """
-
-from models import *
+from __future__ import absolute_import
 import numpy as np
-import mm_utilities as mm
-import read_files as rd
+
+from pkg.models import *
+from pkg import mm_utilities as mm
+from pkg import read_files as rd
 
 # first group of component at same redshift
 redshift1 = 2.0
@@ -103,7 +104,7 @@ for i_filter, name_filter in enumerate(filter_name):
 
 
 # create the data file
-with open('data/fake_source_ex6z.dat', 'wb') as fake:
+with open('data/fake_source_ex6z.dat', 'w') as fake:
     fake.writelines("# filter        RA              Dec        resolution  lambda0  det_type  flux   "
                     "flux_error  arrangement  component   component_number \n")
     for i in range(filter_name.size-1):
@@ -115,7 +116,7 @@ with open('data/fake_source_ex6z.dat', 'wb') as fake:
         lambda0[i+1], data_nature[i+1], fnu_mod[i+1], fnu_err[i+1], arrangement[i+1], notes[i+1], comp_number[i+1]))
 
 # create the fit file
-with open('fake_source_ex6z.fit', 'wb') as fake:
+with open('fake_source_ex6z.fit', 'w') as fake:
     fake.write('source_file: data/fake_source_ex6z.dat \n')
     fake.write('model_file: models/fake_source_ex6z.mod \n')
     fake.write('all_same_redshift: False \n')
@@ -133,7 +134,7 @@ with open('fake_source_ex6z.fit', 'wb') as fake:
     fake.write("unit_flux: 'Jy' \n")
 
 # create the model file
-with open('models/fake_source_ex6z.mod', 'wb') as fake:
+with open('models/fake_source_ex6z.mod', 'w') as fake:
     fake.write('sync_law  2 \n')
     fake.write('$N_{s1}$   -22  -12 \n')
     fake.write('$\\alpha_{s1}$ -3.5  -0.5 \n')

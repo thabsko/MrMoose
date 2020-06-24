@@ -3,11 +3,12 @@ Simplest example to generate a .fit, .mod and .dat file to feed in MrMoose for
 demonstration. The model consists of a double power-law with a break frequency
 and six data points from a source at z=0
 """
-
-import models as md
+from __future__ import absolute_import
 import numpy as np
-import mm_utilities as mm
-import read_files as rd
+
+from pkg import models as md
+from pkg import mm_utilities as mm
+from pkg import read_files as rd
 
 #def fake_sync_source():
 # define the parameters of the sync law and create
@@ -43,7 +44,7 @@ for i_filter, name_filter in enumerate(filter_name):
     fnu_mod[i_filter] = np.random.normal(tmp, fnu_err[i_filter])
 
 # create the data file
-with open('data/fake_source_ex1c.dat', 'wb') as fake:
+with open('data/fake_source_ex1c.dat', 'w') as fake:
     fake.writelines("# filter        RA              Dec        resolution  lambda0  det_type  flux   "
                     "flux_error  arrangement  component   component_number \n")
     for i_filter in range(filter_name.size-1):
@@ -55,7 +56,7 @@ with open('data/fake_source_ex1c.dat', 'wb') as fake:
         lambda0[i_filter+1], "d", fnu_mod[i_filter+1], fnu_err[i_filter+1], "1", "note", "0,"))
 
 # create the fit file
-with open('fake_source_ex1c.fit', 'wb') as fake:
+with open('fake_source_ex1c.fit', 'w') as fake:
     fake.write('source_file: data/fake_source_ex1c.dat \n')
     fake.write('model_file: models/fake_source_ex1c.mod \n')
     fake.write('all_same_redshift: True \n')
@@ -73,7 +74,7 @@ with open('fake_source_ex1c.fit', 'wb') as fake:
     fake.write("unit_flux: 'Jy' \n")
 
 # create the model file
-with open('models/fake_source_ex1c.mod', 'wb') as fake:
+with open('models/fake_source_ex1c.mod', 'w') as fake:
     fake.write('double_sync_law  4 \n')
     fake.write('$N$       -25  -15 \n')
     fake.write('$\\nu_{break}$  7.0  10.0 \n')

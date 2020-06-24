@@ -50,7 +50,7 @@ We summarise here the first run of MrMoose.
 
 In an ipython for instance, enter:
 ```
-run example1.py
+run example_1.py
 ```
 
 This will create three files, with the following path:
@@ -69,13 +69,6 @@ tab = mrmoose.SED_fit('fake_source_ex1.fit')
 ```
 will perform your first run and generate your first results! (several .pdf files and a .pkl file
 in the outputs folder)
-
-Make sure you also create a data, models and outputs folders if not already existing, otherwise MrMoose will crash!
-```
-mkdir data
-mkdir models
-mkdir outputs
-```
 
 ## Known Issues
 - Initial values set as the median of the interval of parameters

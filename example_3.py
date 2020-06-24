@@ -4,10 +4,12 @@ demonstration. The model consists of a single power-law and a black body
 with 12 data points of which 1 is an upper limit, both from unresolved, 
 blended components at z=0
 """
-import models as md
+from __future__ import absolute_import
 import numpy as np
-import mm_utilities as mm
-import read_files as rd
+
+from pkg import models as md
+from pkg import mm_utilities as mm
+from pkg import read_files as rd
 
 #def fake_sync_source():
 # define the parameters of the model and create
@@ -68,7 +70,7 @@ for i_filter, name_filter in enumerate(filter_name):
         fnu_err[i_filter] = fnu_mod[i_filter]
 
 # create the data file
-with open('data/fake_source_ex3.dat', 'wb') as fake:
+with open('data/fake_source_ex3.dat', 'w') as fake:
     fake.writelines("# filter        RA              Dec        resolution  lambda0  det_type  flux   "
                     "flux_error  arrangement  component   component_number \n")
     for i in range(filter_name.size-1):
@@ -80,7 +82,7 @@ with open('data/fake_source_ex3.dat', 'wb') as fake:
         lambda0[i+1], data_nature[i+1], fnu_mod[i+1], fnu_err[i+1], arrangement[i+1], "note", comp_number[i+1]))
 
 # create the fit file
-with open('fake_source_ex3.fit', 'wb') as fake:
+with open('fake_source_ex3.fit', 'w') as fake:
     fake.write('source_file: data/fake_source_ex3.dat \n')
     fake.write('model_file: models/fake_source_ex3.mod \n')
     fake.write('all_same_redshift: True \n')
@@ -98,7 +100,7 @@ with open('fake_source_ex3.fit', 'wb') as fake:
     fake.write("unit_flux: 'Jy' \n")
 
 # create the model file
-with open('models/fake_source_ex3.mod', 'wb') as fake:
+with open('models/fake_source_ex3.mod', 'w') as fake:
     fake.write('sync_law  2 \n')
     fake.write('$N_s$   -28  -18 \n')
     fake.write('$\\alpha$ -2.0  0.0 \n')
