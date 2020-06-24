@@ -4,7 +4,7 @@ Allow to simultaneously fit multiple models in order to interpret the spectral
 energy distribution of an astrophysical source from simple to more complex case, 
 making use of a bayesian framework.
 
-Copyright (C) 2017 Guillaume Drouart, Theresa Falkendal
+Copyright (C) 2017 Guillaume Drouart, Theresa Falkendal, Sthabile Kolwa
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,10 +35,10 @@ reqs=['pathos>=0.2.0',
      'PyYAML>=3.12']
 
 setup(name="MrMoose",
-      version="1.1.0b",
-      author="Guillaume Drouart, Theresa Falkendal",
-      author_emal="guillaume.drouart@curtin.edu.au, tfalkend@eso.org",
+      version="1.1.0.dev",
+      author="Guillaume Drouart, Theresa Falkendal, Sthabile Kolwa",
+      author_emal="guillaume.drouart@curtin.edu.au, theresa.falkendal@pik-potsdam.de, sthabile@idia.ac.za",
       description="MrMoose, multi-resolution, multi-source SED fitting code, with examples",
-      license="GPUv3 Licence ",
+      license="GPUv3 Licence",
       url="https://github.com/gdrouart/MrMoose",
       install_requires=reqs)
